@@ -1,0 +1,112 @@
+stages:
+    - build
+    - unitTests
+    - test
+
+variables:
+  PROJECT_NAME: "app"
+  BINARY_PATH: "bin"
+  TESTS_NAME: "tests"
+  TEST_FILES_PATH: "/home/gitlab-runner/ADS/Binary_tree"
+
+linux:
+  tags:
+    - seminars
+  stage: build
+
+  script: 
+    - cmake -DCMAKE_BUILD_TYPE=Release CMakeLists.txt
+    - make
+
+  cache:
+    paths:
+      - $BINARY_PATH/$PROJECT_NAME
+      - $BINARY_PATH/$TESTS_NAME
+
+  artifacts:
+    paths:
+      - $BINARY_PATH/$PROJECT_NAME
+      - $BINARY_PATH/$TESTS_NAME
+    when: always
+
+win:
+  tags:
+    - seminars
+
+  stage: build
+  allow_failure: true
+
+  script:
+    - i686-w64-mingw32.static-cmake -DCMAKE_BUILD_TYPE=Release CMakeLists.txt
+    - make
+
+  artifacts:
+    paths:
+      - $BINARY_PATH/$PROJECT_NAME.exe
+      - $BINARY_PATH/$TESTS_NAME.exe
+
+unitTesting:
+  tags:
+    - seminars
+  stage: unitTests
+
+  variables:
+    UT_NAME: "unitTestOutput.txt"
+
+  script:
+    - cd $BINARY_PATH
+    - ./tests | tee $UT_NAME
+    - (! grep -q "FAILED TESTS" $UT_NAME)
+
+  artifacts:
+    paths:
+      - $BINARY_PATH/$UT_NAME
+    when: always      
+
+integrationTest: &integrationTest
+  tags:
+    - seminars
+
+  stage: test
+
+  variables:
+    SEQ_NUM: "1"
+
+  script:
+    - cd $BINARY_PATH
+    - valgrind --log-file=valgrindOutput.txt ./$PROJECT_NAME $TEST_FILES_PATH/map3.csv < $TEST_FILES_PATH/input$SEQ_NUM.txt | tee output.txt
+    - diff output.txt $TEST_FILES_PATH/output$SEQ_NUM.txt | tee diffOutput.diff
+    - grep -q "no leaks are possible" valgrindOutput.txt
+    - cmp output.txt $TEST_FILES_PATH/output$SEQ_NUM.txt
+
+  artifacts:
+    paths:
+      - $BINARY_PATH/output.txt
+      - $BINARY_PATH/diffOutput.diff
+      - $BINARY_PATH/valgrindOutput.txt
+    when: always
+
+integrationTest1:
+  <<: *integrationTest
+  variables:
+    SEQ_NUM: "2"
+
+integrationTest2:
+  <<: *integrationTest
+  variables:
+    SEQ_NUM: "3"
+
+integrationTest3:
+  <<: *integrationTest
+  variables:
+    SEQ_NUM: "4"
+
+integrationTest4:
+  <<: *integrationTest
+  variables:
+    SEQ_NUM: "5"
+
+integrationTest5:
+  <<: *integrationTest
+  variables:
+    SEQ_NUM: "6"

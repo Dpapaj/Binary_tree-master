@@ -1,0 +1,7 @@
+<map id="src/include/data.h" name="src/include/data.h">
+<area shape="rect" id="node1" title="Declaration of the data module." alt="" coords="108,5,233,32"/>
+<area shape="rect" id="node2" href="$data_8c.html" title="Implementation of the data module." alt="" coords="5,80,85,107"/>
+<area shape="rect" id="node3" href="$tree_8h.html" title="Definition of function for binary tree." alt="" coords="109,80,232,107"/>
+<area shape="rect" id="node5" href="$main_8c.html" title="Main file for binary tree project." alt="" coords="226,155,313,181"/>
+<area shape="rect" id="node4" href="$tree_8c.html" title="Source file for binary tree." alt="" coords="124,155,201,181"/>
+</map>

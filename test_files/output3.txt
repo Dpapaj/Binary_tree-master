@@ -1,0 +1,33 @@
+Tree v1.1
+----------
+
+1 - tree_init()
+2 - tree_clear()
+3 - tree_insert()
+4 - tree_delete()
+5 - tree_find_node()
+6 - tree_get_node_count()
+7 - tree_proces()
+M - MENU
+E - END
+Your choice: Your choice: 7
+Tree is NOT initialized!
+
+Your choice: Your choice: 1
+Tree initialized successfuly.
+
+Your choice: Your choice: 7
+Process:
+0 - preorder
+1 - inorder
+2 - postorder
+Your choice1
+
+
+Your choice: Your choice: 3
+Insert data to a node:
+Please, enter a name: Enter age, weight and height (separated by Enter):
+
+Your choice: Your choice: 3
+Insert data to a node:
+Please, enter a name: End of file, finishing.
